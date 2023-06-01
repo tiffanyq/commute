@@ -25,15 +25,16 @@ const SKY = {
 "23": "#0b1630"
 };
 
-const MAX_SPEED = 802;
-const SPEED_MULTIPLIER = 8;
+const EXP = 2;
+const MIN_SPEED = 14;// 2^14
 
 function changeSpeed() {
-  const speed = document.getElementById("speed-input").value;
+  const speed = parseInt(document.getElementById("speed-input").value);
   const content = document.getElementById("marquee-content");
-  content.style.animation = "marquee " + (MAX_SPEED - parseInt(speed)*SPEED_MULTIPLIER) + "s linear infinite";
+  const adjustedSpeed = Math.pow(EXP, (MIN_SPEED-speed));
+  content.style.animation = "marquee " + adjustedSpeed + "s linear infinite";
   document.getElementById("speed-indicator").innerText = speed;
-  if (speed === "0") {
+  if (speed === 0) {
     content.style.animationPlayState = 'paused';
   } else {
     content.style.animationPlayState = 'running';
@@ -51,8 +52,10 @@ function changeSky(time) {
   document.body.style.backgroundColor = SKY[time];
   if (time > 5 && time < 20) {
     document.body.style.color = "#000000";
+    document.getElementById("controls").style.border = "1px solid #000000";
   } else {
     document.body.style.color = "#ffffff";
+    document.getElementById("controls").style.border = "1px solid #ffffff";
   }
 }
 
